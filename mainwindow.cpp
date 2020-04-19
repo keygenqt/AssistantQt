@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->preview = new Preview(this);
+    this->preview->setModal(true);
+
     this->command = new Command(parent);
     QString version = command->getVersion();
 
@@ -38,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     } else {
         this->show();
     }
+
+    connect(this->preview, SIGNAL(successRaname()), this, SLOT(successRaname()));
 }
 
 MainWindow::~MainWindow()
@@ -56,5 +61,31 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    QString dir = ui->input_dir->text();
+    if (dir.isEmpty()) {
+        QMessageBox::information(this, tr("Screener"), "Select dir pls.");
+    } else {
+        QString params = command->renameFilesNo(dir,
+                             ui->input_template->text(),
+                             ui->input_search->text(),
+                             QString::number(ui->spinBox_zeros->value()),
+                             ui->comboBox_sort->itemData(ui->comboBox_sort->currentIndex()).toString());
 
+        this->preview->showInfo(params);
+        this->preview->show();
+    }
+}
+
+void MainWindow::successRaname() {
+    QString dir = ui->input_dir->text();
+    if (dir.isEmpty()) {
+        QMessageBox::information(this, tr("Screener"), "Select dir pls.");
+    } else {
+        command->renameFilesYes(dir,
+                             ui->input_template->text(),
+                             ui->input_search->text(),
+                                QString::number(ui->spinBox_zeros->value()),
+                             ui->comboBox_sort->itemData(ui->comboBox_sort->currentIndex()).toString());
+        QMessageBox::information(this, tr("Screener"), "Success rename files");
+    }
 }

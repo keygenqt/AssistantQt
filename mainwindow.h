@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <preview.h>
 #include <command.h>
 #include <QMainWindow>
 
@@ -18,11 +19,12 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
+    void successRaname();
 
 private:
     Ui::MainWindow *ui;
     Command *command;
+    Preview *preview;
 };
 #endif // MAINWINDOW_H
