@@ -65,11 +65,11 @@ void MainWindow::on_pushButton_2_clicked()
     if (dir.isEmpty()) {
         QMessageBox::information(this, tr("Screener"), "Select dir pls.");
     } else {
-        QString params = command->renameFilesNo(dir,
+        QString params = command->renameFiles("no", dir,
                              ui->input_template->text(),
                              ui->input_search->text(),
                              QString::number(ui->spinBox_zeros->value()),
-                             ui->comboBox_sort->itemData(ui->comboBox_sort->currentIndex()).toString());
+                             ui->comboBox_sort->itemText(ui->comboBox_sort->currentIndex()));
 
         this->preview->showInfo(params);
         this->preview->show();
@@ -77,15 +77,11 @@ void MainWindow::on_pushButton_2_clicked()
 }
 
 void MainWindow::successRaname() {
-    QString dir = ui->input_dir->text();
-    if (dir.isEmpty()) {
-        QMessageBox::information(this, tr("Screener"), "Select dir pls.");
-    } else {
-        command->renameFilesYes(dir,
-                             ui->input_template->text(),
-                             ui->input_search->text(),
-                                QString::number(ui->spinBox_zeros->value()),
-                             ui->comboBox_sort->itemData(ui->comboBox_sort->currentIndex()).toString());
-        QMessageBox::information(this, tr("Screener"), "Success rename files");
-    }
+    command->renameFiles("yes",
+                         ui->input_dir->text(),
+                         ui->input_template->text(),
+                         ui->input_search->text(),
+                         QString::number(ui->spinBox_zeros->value()),
+                         ui->comboBox_sort->itemData(ui->comboBox_sort->currentIndex()).toString());
+    QMessageBox::information(this, tr("Screener"), "Success rename files");
 }

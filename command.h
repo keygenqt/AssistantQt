@@ -10,8 +10,7 @@ class Command : public QObject
 public:
     explicit Command(QObject *parent = nullptr);
     QString getVersion();
-    void renameFilesYes(QString dir, QString tmpl, QString search, QString zeros, QString sort);
-    QString renameFilesNo(QString dir, QString tmpl, QString search, QString zeros, QString sort);
+    QString renameFiles(QString, QString, QString, QString, QString, QString);
 
 private:
     QProcess *p;

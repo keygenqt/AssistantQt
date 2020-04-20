@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
+#include <QModelIndexList>
 
 namespace Ui {
 class Preview;
@@ -19,8 +20,8 @@ public:
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
-
     void on_buttonBox_accepted();
+    void synchronizing(QModelIndexList);
 
 signals:
     void successRaname();
