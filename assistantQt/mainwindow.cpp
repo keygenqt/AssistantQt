@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString version = command->getVersion();
 
     ui->setupUi(this);
-    ui->statusbar->showMessage("AssistantQt v0.0.1; Assistant v" + version);
+    ui->statusbar->showMessage("AssistantQt v0.0.2; Assistant v" + version);
 
     this->setGeometry(
         QStyle::alignedRect(
@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
         this->show();
     }
 
-    this->setFixedSize(680, 300);
+    this->setFixedSize(680, 330);
     this->statusBar()->setSizeGripEnabled(false);
 
     connect(this->preview, SIGNAL(success()), this, SLOT(success()));

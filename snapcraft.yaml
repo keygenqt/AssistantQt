@@ -1,6 +1,6 @@
 name: kg-assistantqt
 base: core18
-version: '0.0.1'
+version: '0.0.2'
 summary: AssistantQt open source gui for console application Assistant
 description: |
   * rename files in folder with index
@@ -69,9 +69,19 @@ parts:
     stage-packages:
       - locales-all
 
+  desktop-file:
+    plugin: dump
+    source: gui
+    source-type: local
+    organize:
+      '*.desktop': desktop/
+      '*.png': images/
+    after: [kg-assistantqt]
+
 apps:
   kg-assistantqt:
     command: desktop-launch $SNAP/opt/assistantQt/bin/assistantQt
+    desktop: desktop/kg-assistantqt.desktop
     environment:
       DISABLE_WAYLAND: 1
       LC_ALL: C.UTF-8
