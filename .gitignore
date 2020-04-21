@@ -2,3 +2,4 @@
 *.autosave
 build-*
 .idea
+*.snap

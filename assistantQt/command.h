@@ -38,7 +38,8 @@ public:
 private:
     QProcess *p;
 
-    QString command = "kg-assistant";
+//    QString command = "kg-assistant";
+    QString command = "java -jar /snap/kg-assistantqt/current/jar/assistant.jar"; // snap
 
     QString argDir = "--dir";
     QString argTemplate = "--template";

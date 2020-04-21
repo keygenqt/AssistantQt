@@ -1,0 +1,87 @@
+name: kg-assistantqt
+base: core18
+version: '0.0.1'
+summary: AssistantQt open source gui for console application Assistant
+description: |
+  * rename files in folder with index
+  * sort for index - standard by name, natural by name, last modification file
+  * search in folder files regex
+  * size zeros in index
+  * uppercase extension in folder
+  * lowercase extension in folder
+
+grade: stable
+confinement: strict
+
+parts:
+  kg-assistantqt:
+    source: assistantQt
+    source-type: local
+    plugin: qmake
+    project-files: ["assistantQt.pro"]
+    build-packages:
+      - g++
+      - qtbase5-dev
+      - openjdk-11-jdk
+      - openjdk-11-jre
+    stage-packages:
+      - openjdk-11-jre
+      - libdouble-conversion1
+      - libfreetype6
+      - libgl1
+      - libglvnd0
+      - libglx0
+      - libgraphite2-3
+      - libharfbuzz0b
+      - libicu60
+      - libpng16-16
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5widgets5
+      - libx11-6
+      - libxau6
+      - libxcb1
+      - libxdmcp6
+
+    after:
+      - desktop-qt5
+      - kgassistant
+
+  kgassistant:
+    plugin: gradle
+    gradle-output-dir: build/libs
+    gradle-options: [jar]
+    source: https://github.com/keygenqt/assistant.git
+    source-type: git
+    source-tag: master
+    build-environment:
+      - JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+      - PATH: $JAVA_HOME/jre/bin:$PATH
+
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - locales-all
+
+apps:
+  kg-assistantqt:
+    command: desktop-launch $SNAP/opt/assistantQt/bin/assistantQt
+    environment:
+      DISABLE_WAYLAND: 1
+      LC_ALL: C.UTF-8
+    plugs:
+      - home
+      - unity7
+
+  assistant:
+    command: java -jar $SNAP/jar/assistant.jar
+    environment:
+      LC_ALL: C.UTF-8
+    plugs:
+      - home
