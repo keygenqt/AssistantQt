@@ -12,7 +12,7 @@ AssistantQt open source gui for console application Assistant.
 Assistant
 ===================
 
-&nbsp;[![Website shields.io](https://img.shields.io/website?up_message=Assistant&url=https%3A%2F%2Fgithub.com%2Fkeygenqt%2Fassistant)](https://github.com/keygenqt/assistant)
+[![Website shields.io](https://img.shields.io/website?up_message=Assistant&url=https%3A%2F%2Fgithub.com%2Fkeygenqt%2Fassistant)](https://github.com/keygenqt/assistant)
 
 [![kg-assistant](https://snapcraft.io//kg-assistant/badge.svg)](https://snapcraft.io/kg-assistant)
 
