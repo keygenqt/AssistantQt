@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/data">
+        <file>opensource.png</file>
+        <file>icon_preview.png</file>
+        <file>icon.png</file>
+    </qresource>
+</RCC>
