@@ -24,6 +24,8 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QCloseEvent>
+#include <QAction>
+#include <QMenu>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -50,6 +52,25 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_sort->addItem("Standart by name");
     ui->comboBox_sort->addItem("Natural by name");
     ui->comboBox_sort->addItem("Last modification");
+
+    // status bar
+    trayIcon = new QSystemTrayIcon(this);
+
+    trayIcon->setIcon(QIcon(":data/icon_preview.png"));
+
+    QMenu * menu = new QMenu(this);
+    viewWindow = new QAction(QString("Hide App").toUtf8(), this);
+    quitAction = new QAction(QString("Quit").toUtf8(), this);
+
+    connect(viewWindow, SIGNAL(triggered()), this, SLOT(actionItemTray()));
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(actionItemTray()));
+
+    menu->addAction(viewWindow);
+    menu->addAction(quitAction);
+
+    trayIcon->setContextMenu(menu);
+    trayIcon->show();
+    ///////////////////
 
     if (version == "") {
         this->hide();
@@ -147,5 +168,35 @@ void MainWindow::success() {
                              ui->input_search->text(),
                              ui->comboBox_sort->itemText(ui->comboBox_sort->currentIndex()));
         QMessageBox::information(this, tr("AssistantQt"), "Success update files extensions");
+    }
+}
+
+void MainWindow::actionItemTray() {
+    QAction* action = qobject_cast<QAction *>(QObject::sender());
+
+    qDebug() << action->text().toUtf8();
+
+    if (action->text() == QString("Show App")) {
+        viewWindow->setText(QString("Hide App"));
+        this->show();
+    }
+    else if (action->text() == QString("Hide App")) {
+        viewWindow->setText(QString("Show App"));
+        this->hide();
+    }
+    else if (action->text() == QString("Quit")) {
+        this->hide();
+        this->close();
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent * event)
+{
+    if(this->isVisible()){
+        event->ignore();
+        this->hide();
+        viewWindow->setText(QString("Show App").toUtf8());
+        QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information);
+        trayIcon->showMessage(tr("Screener"), QString("The application is minimized to tray.").toUtf8(), icon, 1000);
     }
 }

@@ -21,6 +21,8 @@
 #include <preview.h>
 #include <command.h>
 #include <QMainWindow>
+#include <QCloseEvent>
+#include <QSystemTrayIcon>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,17 +36,25 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent * event);
+
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
-    void success();
-
     void on_pushButton_3_clicked();
+    void success();
+    void actionItemTray();
 
 private:
     Ui::MainWindow *ui;
     Command *command;
     Preview *preview;
     QString typeSuccess; // rename, ext
+
+    QSystemTrayIcon *trayIcon;
+
+    QAction * viewWindow;
+    QAction * quitAction;
 };
 #endif // MAINWINDOW_H
