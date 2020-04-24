@@ -1,6 +1,6 @@
 name: kg-assistantqt
 base: core18
-version: '0.0.2'
+version: '0.0.3'
 summary: AssistantQt open source gui for console application Assistant
 description: |
   * rename files in folder with index

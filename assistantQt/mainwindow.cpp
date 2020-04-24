@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString version = command->getVersion();
 
     ui->setupUi(this);
-    ui->statusbar->showMessage("AssistantQt v0.0.2; Assistant v" + version);
+    ui->statusbar->showMessage("AssistantQt v0.0.3; Assistant v" + version);
 
     this->setGeometry(
         QStyle::alignedRect(
