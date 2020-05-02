@@ -3,3 +3,4 @@
 build-*
 .idea
 *.snap
+cmake-build-debug
