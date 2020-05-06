@@ -17,16 +17,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     command.cpp \
+    dialog.cpp \
     main.cpp \
     mainwindow.cpp \
     preview.cpp
 
 HEADERS += \
     command.h \
+    dialog.h \
     mainwindow.h \
     preview.h
 
 FORMS += \
+    dialog.ui \
     mainwindow.ui \
     preview.ui
 

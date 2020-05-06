@@ -7,7 +7,7 @@ AssistantQt open source gui for console application Assistant.
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/kg-assistantQt)
 
-![picture](assistantQt/data/screenshot.png)
+![picture](assistantQt/data/screenshot-39.png)
 
 Assistant
 ===================
@@ -23,6 +23,12 @@ Assistant is a delightful files mod tool.
 * rename files in folder with index
 * sort for index - standard by name, natural by name, last modification file
 * search in folder files regex
+* exclude in folder files regex by content
+* exclude lines file
 * size zeros in index
 * uppercase extension in folder
 * lowercase extension in folder
+* lowercase extension in folder
+* statistic
+* find lines by regex, counting
+* size files

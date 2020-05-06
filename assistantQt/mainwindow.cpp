@@ -34,11 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
     this->preview = new Preview(this);
     this->preview->setModal(true);
 
+    this->lines = new Dialog(this);
+    this->lines->setModal(true);
+
     this->command = new Command(parent);
     QString version = command->getVersion();
 
     ui->setupUi(this);
-    ui->statusbar->showMessage("AssistantQt v0.0.3; Assistant v" + version);
+    ui->statusbar->showMessage("AssistantQt v0.0.4; Assistant v" + version);
 
     this->setGeometry(
         QStyle::alignedRect(
@@ -80,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
         this->show();
     }
 
-    this->setFixedSize(680, 330);
+    this->setFixedSize(680, 365);
     this->statusBar()->setSizeGripEnabled(false);
 
     connect(this->preview, SIGNAL(success()), this, SLOT(success()));
@@ -111,6 +114,7 @@ void MainWindow::on_pushButton_2_clicked()
         QString params = command->renameFiles("no", dir,
                              ui->input_template->text(),
                              ui->input_search->text(),
+                             ui->input_exclude->text(),
                              QString::number(ui->spinBox_zeros->value()),
                              ui->comboBox_sort->itemText(ui->comboBox_sort->currentIndex()));
 
@@ -137,6 +141,7 @@ void MainWindow::on_pushButton_3_clicked()
         }
         QString params = command->extension(type, "no", dir,
                              ui->input_search->text(),
+                             ui->input_exclude->text(),
                              ui->comboBox_sort->itemText(ui->comboBox_sort->currentIndex()));
 
         if (params.contains("->")) {
@@ -154,6 +159,7 @@ void MainWindow::success() {
                              ui->input_dir->text(),
                              ui->input_template->text(),
                              ui->input_search->text(),
+                             ui->input_exclude->text(),
                              QString::number(ui->spinBox_zeros->value()),
                              ui->comboBox_sort->itemData(ui->comboBox_sort->currentIndex()).toString());
         QMessageBox::information(this, tr("AssistantQt"), "Success rename files");
@@ -166,6 +172,7 @@ void MainWindow::success() {
         QString params = command->extension(type, "yes",
                              ui->input_dir->text(),
                              ui->input_search->text(),
+                             ui->input_exclude->text(),
                              ui->comboBox_sort->itemText(ui->comboBox_sort->currentIndex()));
         QMessageBox::information(this, tr("AssistantQt"), "Success update files extensions");
     }
@@ -198,5 +205,63 @@ void MainWindow::closeEvent(QCloseEvent * event)
         viewWindow->setText(QString("Show App").toUtf8());
         QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information);
         trayIcon->showMessage(tr("Screener"), QString("The application is minimized to tray.").toUtf8(), icon, 1000);
+    }
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    QString dir = ui->input_dir->text();
+    if (dir.isEmpty()) {
+        QMessageBox::information(this, tr("AssistantQt"), "Select folder pls.");
+    } else {
+        QString params = command->statistic(dir,
+                             ui->input_search->text(),
+                             ui->input_exclude->text(),
+                             ui->comboBox_sort->itemText(ui->comboBox_sort->currentIndex()));
+
+        QString info = "";
+        QStringList list = params.split("\n", QString::SkipEmptyParts);
+        for (int i = 0; i<list.size(); i++) {
+            QString item = list[i].replace(QRegularExpression("\\s+"), " ");
+            item = item.replace(QRegularExpression("\\("), "\nfile name: ");
+            item = item.replace(QRegularExpression("\\)"), "\n");
+            if (!ui->checkBox_size->isChecked() && item.contains("size")) {
+                continue;
+            }
+            if (!ui->checkBox_lines->isChecked() && (item.contains("max lines") || item.contains("min lines"))) {
+                continue;
+            }
+            if (!ui->checkBox_date->isChecked() && item.contains("modified")) {
+                continue;
+            }
+            if (item.contains("max") || item.contains("last")) {
+                item = "-----------------\n" + item;
+                info = info.trimmed();
+            }
+            info += "\n" + item;
+        }
+
+        QMessageBox msgBox;
+        QSpacerItem* horizontalSpacer = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        msgBox.setText(info.trimmed());
+        QGridLayout* layout = (QGridLayout*)msgBox.layout();
+        layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
+        msgBox.exec();
+    }
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    QString dir = ui->input_dir->text();
+    if (dir.isEmpty()) {
+        QMessageBox::information(this, tr("AssistantQt"), "Select folder pls.");
+    } else {
+        QString params = command->lines(dir,
+                             ui->input_lines_search->text(),
+                             ui->input_search->text(),
+                             ui->input_exclude->text(),
+                             ui->comboBox_sort->itemText(ui->comboBox_sort->currentIndex()));
+
+        this->lines->showLines(params);
     }
 }

@@ -27,8 +27,10 @@ class Command : public QObject
 public:
     explicit Command(QObject *parent = nullptr);
     QString getVersion();
-    QString renameFiles(QString, QString, QString, QString, QString, QString);
-    QString extension(QString, QString, QString, QString, QString);
+    QString renameFiles(QString, QString, QString, QString, QString, QString, QString);
+    QString extension(QString, QString, QString, QString, QString, QString);
+    QString statistic(QString, QString, QString, QString);
+    QString lines(QString, QString, QString, QString, QString);
     QString getSort(QString);
 
 public:
@@ -38,15 +40,20 @@ public:
 private:
     QProcess *p;
 
-//    QString command = "kg-assistant";
-    QString command = "java -jar /snap/kg-assistantqt/current/jar/assistant.jar"; // snap
+    QString command = "java -jar /home/keygenqt/Documents/Other/applications/assistant/build/libs/assistant.jar";
+//    QString command = "java -jar /snap/kg-assistantqt/current/jar/assistant.jar"; // snap
 
     QString argDir = "--dir";
     QString argTemplate = "--template";
     QString argSearch = "--search";
+    QString argExclude = "--exclude";
+    QString argExcludeLines = "--exclude-lines=500";
     QString argZeros = "--zeros";
     QString argSort = "--sort";
     QString argVersion = "--version";
+    QString argStatistic = "--statistic";
+    QString argLines = "--lines";
+    QString argLinesSearch = "--lines-search";
 
 signals:
 

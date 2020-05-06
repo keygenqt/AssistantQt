@@ -39,7 +39,6 @@ void Preview::on_buttonBox_clicked(QAbstractButton *button)
 
 void Preview::synchronizing(QModelIndexList index)
 {
-    qDebug() << "12";
     ui->listViewWill->setCurrentIndex(index.first());
 }
 

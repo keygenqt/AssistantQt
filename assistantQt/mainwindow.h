@@ -19,6 +19,7 @@
 #define MAINWINDOW_H
 
 #include <preview.h>
+#include <dialog.h>
 #include <command.h>
 #include <QMainWindow>
 #include <QCloseEvent>
@@ -45,11 +46,14 @@ private slots:
     void on_pushButton_3_clicked();
     void success();
     void actionItemTray();
+    void on_pushButton_4_clicked();
+    void on_pushButton_5_clicked();
 
 private:
     Ui::MainWindow *ui;
     Command *command;
     Preview *preview;
+    Dialog *lines;
     QString typeSuccess; // rename, ext
 
     QSystemTrayIcon *trayIcon;

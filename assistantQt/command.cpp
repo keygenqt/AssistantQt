@@ -38,6 +38,7 @@ QString Command::extension(
         QString answer,
         QString dir,
         QString search,
+        QString exclude,
         QString sort)
 {
     QString command = this->command + " " + arg;
@@ -47,6 +48,9 @@ QString Command::extension(
     }
     if (!search.isEmpty()) {
         command += " " + argSearch + "=" + search;
+    }
+    if (!exclude.isEmpty()) {
+        command += " " + argExclude + "=" + exclude + " " + argExcludeLines;
     }
 
     QString typeSort = getSort(sort);
@@ -68,6 +72,7 @@ QString Command::renameFiles(
         QString dir,
         QString tmpl,
         QString search,
+        QString exclude,
         QString zeros,
         QString sort)
 {
@@ -78,6 +83,9 @@ QString Command::renameFiles(
     }
     if (!search.isEmpty()) {
         command += " " + argSearch + "=" + search;
+    }
+    if (!exclude.isEmpty()) {
+        command += " " + argExclude + "=" + exclude + " " + argExcludeLines;
     }
     if (!tmpl.isEmpty()) {
         command += " " + argTemplate + "=\"" + tmpl + "\"";
@@ -112,4 +120,72 @@ QString Command::getSort(QString sort)
         return "mod";
     }
     return "";
+}
+
+QString Command::statistic(
+        QString dir,
+        QString search,
+        QString exclude,
+        QString sort)
+{
+    QString command = this->command + " " + this->argStatistic;
+
+    if (!dir.isEmpty()) {
+        command += " " + argDir + "=" + dir;
+    }
+    if (!search.isEmpty()) {
+        command += " " + argSearch + "=" + search;
+    }
+    if (!exclude.isEmpty()) {
+        command += " " + argExclude + "=" + exclude + " " + argExcludeLines;
+    }
+
+    QString typeSort = getSort(sort);
+
+    if (!typeSort.isEmpty()) {
+        command += " " + argSort + "=" + typeSort;
+    }
+
+    qDebug() << command;
+
+    p->start(command);
+    p->waitForFinished();
+    return p->readAllStandardOutput();
+}
+
+QString Command::lines(
+        QString dir,
+        QString linesSearch,
+        QString search,
+        QString exclude,
+        QString sort)
+{
+    QString command = this->command + " " + this->argLines;
+
+    if (!dir.isEmpty()) {
+        command += " " + argDir + "=" + dir;
+    }
+    if (!linesSearch.isEmpty()) {
+        command += " " + argLinesSearch + "=" + linesSearch;
+    } else {
+        command += " " + argLinesSearch + "=.*";
+    }
+    if (!search.isEmpty()) {
+        command += " " + argSearch + "=" + search;
+    }
+    if (!exclude.isEmpty()) {
+        command += " " + argExclude + "=" + exclude + " " + argExcludeLines;
+    }
+
+    QString typeSort = getSort(sort);
+
+    if (!typeSort.isEmpty()) {
+        command += " " + argSort + "=" + typeSort;
+    }
+
+    qDebug() << command;
+
+    p->start(command);
+    p->waitForFinished();
+    return p->readAllStandardOutput();
 }
